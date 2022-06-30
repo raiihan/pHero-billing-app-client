@@ -1,10 +1,17 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 
-const BillingForm = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
-    console.log(watch("example"));
+const BillingForm = ({ getData, editBill }) => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = data => {
+        const newBill = {
+            name: data.fullName,
+            email: data.email,
+            phone: data.phone,
+            amount: parseFloat(data.amount)
+        }
+        getData(newBill)
+    };
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -18,7 +25,10 @@ const BillingForm = () => {
                                 {
                                     required: { value: true, message: "Name is required" },
                                     minLength: { value: 3, message: "Minimum 3 character required" }
-                                })} />
+                                })}
+                                placeholder="Enter Full Name"
+                                defaultValue={editBill?.name}
+                            />
                         </div>
                         <span className='text-red-600'>{errors.fullName?.message}</span>
 
@@ -30,7 +40,10 @@ const BillingForm = () => {
                                 {
                                     required: { value: true, message: "Email Address is required" },
                                     pattern: { value: /\S+@\S+\.\S+/, message: "Please provide a valid Email" }
-                                })} />
+                                })}
+                                placeholder="Enter Email Address"
+                                defaultValue={editBill?.email}
+                            />
                         </div>
                         <span className='text-red-600'>{errors.email?.message}</span>
 
@@ -42,7 +55,10 @@ const BillingForm = () => {
                                 {
                                     required: { value: true, message: "Phone Number is required" },
                                     pattern: { value: /^\(?[0-9]\d{10}$/, message: "Please provide a valid Phone Number" }
-                                })} />
+                                })}
+                                placeholder="Enter Phone"
+                                defaultValue={editBill?.phone}
+                            />
                         </div>
                         <span className='text-red-600'>{errors.phone?.message}</span>
 
@@ -54,12 +70,15 @@ const BillingForm = () => {
                                 {
                                     required: { value: true, message: "Amount is required" },
                                     pattern: { value: /\(?[0-9]/, message: "Please provide a valid Amount" }
-                                })} />
+                                })}
+                                placeholder="Enter Amount"
+                                defaultValue={editBill?.amount}
+                            />
                         </div>
                         <span className='text-red-600'>{errors.amount?.message}</span>
 
                         <div class="form-control mt-6">
-                            <button type="submit" class="btn">Add Bill</button>
+                            <button type="submit" class="btn">{editBill ? 'Edit Bill' : 'Add Bill'}</button>
                         </div>
                     </div>
                 </div>
