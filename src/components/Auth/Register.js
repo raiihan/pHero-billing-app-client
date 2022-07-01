@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
     const navigate = useNavigate()
     const [error, setError] = useState('')
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async registerData => {
         try {
             const { data } = await axios.post('https://another-app-run.herokuapp.com/api/registration', registerData);

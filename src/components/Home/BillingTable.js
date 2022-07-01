@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import RefetchContext from '../../context/refetchContext';
 
-const BillingTable = ({ search }) => {
+const BillingTable = ({ search, getRefetch }) => {
     const refetchForAmount = useContext(RefetchContext)
     const [pageCount, setPageCount] = useState(0);
     const [page, setPage] = useState(0)
@@ -23,6 +23,7 @@ const BillingTable = ({ search }) => {
     const { isLoading, error, data, refetch } = useQuery(['bills', page, search], async () =>
         await axiosPrivate.get(`/billing-list?page=${page}&count=${count}&search=${search}`)
     )
+    getRefetch(refetch)
     const bills = data?.data;
     if (isLoading) {
         <p>loding.....</p>

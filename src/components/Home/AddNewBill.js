@@ -3,13 +3,14 @@ import BillingForm from './BillingForm';
 import RefetchContext from '../../context/refetchContext';
 import axiosPrivate from '../../api/axiosPrivate';
 
-const AddNewBill = () => {
+const AddNewBill = ({ fetchFun }) => {
     const refetch = useContext(RefetchContext)
     const addBill = (data, reset) => {
         axiosPrivate.post('/add-billing', data)
             .then(function (response) {
                 if (response?.data?.insertedId) {
                     refetch()
+                    fetchFun()
                     reset()
                 }
             })

@@ -25,8 +25,7 @@ function App() {
         <Navbar paidAmount={paidAmount} />
         <Routes>
           <Route element={<ProtectRout user={user} />}>
-            {/* <Route path='/' element={user && user._id ? <Home refetch={refetch} /> : <Login />} /> */}
-            <Route path='/' element={<Home refetch={refetch} />} />
+            <Route path='/' element={<Home />} />
             <Route path='/editbill/:billId' element={<EditBill />} />
           </Route>
           <Route path='/login' element={<Login setLoginUser={setLoginUser} />} />

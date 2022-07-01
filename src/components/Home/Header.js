@@ -1,7 +1,7 @@
 import React from 'react';
 import AddNewBill from './AddNewBill';
 
-const Header = ({ getSearchTerm }) => {
+const Header = ({ getSearchTerm, fetchFun }) => {
 
     const handleSearch = event => {
         if (event.code === 'Enter') {
@@ -23,7 +23,7 @@ const Header = ({ getSearchTerm }) => {
                 <div class="navbar-end">
                     <label for="new-bill-modal" class="btn">Add New Bill</label>
                 </div>
-                <AddNewBill />
+                <AddNewBill fetchFun={fetchFun} />
             </div>
         </>
 
