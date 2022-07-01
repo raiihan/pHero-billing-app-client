@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import BillingForm from './BillingForm';
-import axios from 'axios'
+import RefetchContext from '../../context/refetchContext';
+import axiosPrivate from '../../api/axiosPrivate';
 
 const AddNewBill = () => {
-    const addBill = data => {
-        console.log(data);
-        axios.post('http://localhost:5000/add-billing', data)
+    const refetch = useContext(RefetchContext)
+    const addBill = (data, reset) => {
+        axiosPrivate.post('/add-billing', data)
             .then(function (response) {
-                console.log(response);
+                if (response?.data?.insertedId) {
+                    refetch()
+                    reset()
+                }
             })
     }
     return (

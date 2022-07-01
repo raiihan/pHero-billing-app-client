@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BillingTable from './BillingTable';
 import Header from './Header';
 
-const Home = () => {
+const Home = ({ refetch }) => {
     const [searchTerm, setSerchTerm] = useState("");
     const getSearchTerm = term => {
         setSerchTerm(term)
@@ -10,7 +10,7 @@ const Home = () => {
 
     return (
         <div className='px-24'>
-            <Header getSearchTerm={getSearchTerm} />
+            <Header getSearchTerm={getSearchTerm} refetch={refetch} />
             <BillingTable search={searchTerm} />
 
         </div>

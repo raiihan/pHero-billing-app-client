@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 
 const BillingForm = ({ getData, editBill }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
         const newBill = {
             name: data.fullName,
@@ -10,7 +10,7 @@ const BillingForm = ({ getData, editBill }) => {
             phone: data.phone,
             amount: parseFloat(data.amount)
         }
-        getData(newBill)
+        getData(newBill, reset)
     };
     return (
         <div>

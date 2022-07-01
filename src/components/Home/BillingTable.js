@@ -1,22 +1,23 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import axiosPrivate from '../../api/axiosPrivate'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import RefetchContext from '../../context/refetchContext';
 
 const BillingTable = ({ search }) => {
+    const refetchForAmount = useContext(RefetchContext)
     const [pageCount, setPageCount] = useState(0);
     const [page, setPage] = useState(0)
-    const count = 5;
-    console.log(search);
+    const count = 10;
+    // const search = ''
     useEffect(() => {
         const getTotalBill = async () => {
-            const { data } = await axios.get('http://localhost:5000/totalbillcount')
-            setPageCount(Math.ceil(data?.count / 5))
+            const { data } = await axios.get('https://another-app-run.herokuapp.com/totalbillcount')
+            setPageCount(Math.ceil(data?.count / 10))
         }
         getTotalBill()
-
 
     }, [])
     const { isLoading, error, data, refetch } = useQuery(['bills', page, search], async () =>
@@ -38,6 +39,7 @@ const BillingTable = ({ search }) => {
         (async () => {
             const { data } = await axiosPrivate.delete(`/delete-billing/${id}`)
             if (data.deletedCount > 0) {
+                refetchForAmount()
                 refetch()
                 toast.success('Deleted Successfully', {
                     position: "top-center",
@@ -85,9 +87,10 @@ const BillingTable = ({ search }) => {
                 {
                     [...Array(pageCount).keys()].map(number =>
                         <button
+                            key={number}
                             onClick={() => handlePageNumber(number)}
 
-                            className={`btn ${page === number ? 'btn-active' : ''}`}>{number}</button>
+                            className={`btn ${page === number ? 'btn-active' : ''}`}>{number + 1}</button>
 
                     )
                 }
