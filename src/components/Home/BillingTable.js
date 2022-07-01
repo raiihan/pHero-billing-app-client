@@ -5,11 +5,11 @@ import axiosPrivate from '../../api/axiosPrivate'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const BillingTable = () => {
+const BillingTable = ({ search }) => {
     const [pageCount, setPageCount] = useState(0);
     const [page, setPage] = useState(0)
     const count = 5;
-
+    console.log(search);
     useEffect(() => {
         const getTotalBill = async () => {
             const { data } = await axios.get('http://localhost:5000/totalbillcount')
@@ -19,8 +19,8 @@ const BillingTable = () => {
 
 
     }, [])
-    const { isLoading, error, data, refetch } = useQuery(['bills', page], async () =>
-        await axiosPrivate.get(`/billing-list?page=${page}&count=${count}`)
+    const { isLoading, error, data, refetch } = useQuery(['bills', page, search], async () =>
+        await axiosPrivate.get(`/billing-list?page=${page}&count=${count}&search=${search}`)
     )
     const bills = data?.data;
     if (isLoading) {
@@ -78,6 +78,7 @@ const BillingTable = () => {
                                     className='btn-xs btn'>Delete</button></td>
                         </tr>)
                     }
+
                 </tbody>
             </table>
             <div className="btn-group flex justify-center">
